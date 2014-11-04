@@ -4,13 +4,19 @@
  * @version 1.7
  */
 /*
-Plugin Name: Hello Dolly
-Plugin URI: http://wordpress.org/plugins/hello-dolly/
-Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
-Author: Matt Mullenweg
-Version: 1.7
-Author URI: http://ma.tt/
+* Plugin Name: Hello Dolly
+* Plugin URI: http://wordpress.org/plugins/hello-dolly/
+* Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
+* Author: Matt Mullenweg
+* Version: 1.7
+* Author URI: http://ma.tt/
+* Text Domain: hello-dolly
 */
+
+
+// load langauge
+load_plugin_textdomain('hello-dolly', false, basename( dirname( __FILE__ ) ) . '/languages' );
+
 
 /**
  * @return string
@@ -44,14 +50,15 @@ Golly, gee, fellas
 Find her a vacant knee, fellas
 Dolly'll never go away
 Dolly'll never go away
-Dolly'll never go away again", "lyrics: Hello, Dolly by Louis Armstrong" );
+Dolly'll never go away again", 'hello-dolly', 'lyrics: Hello, Dolly by Louis Armstrong' );
 
 	// Here we split it into lines
-	$lyrics = explode( "\n", $lyrics );
+	$lyrics = explode( "\n", $lyrics ); 
 
 	// And then randomly choose a line
 	return wptexturize( $lyrics[ mt_rand( 0, count( $lyrics ) - 1 ) ] );
 }
+
 
  
 /**
@@ -59,7 +66,7 @@ Dolly'll never go away again", "lyrics: Hello, Dolly by Louis Armstrong" );
  */
 function hello_dolly() {
 	$chosen = hello_dolly_get_lyric();
-	printf( '<p id="dolly">$s</p>' , $chosen );
+	printf( '<p id="dolly">%s</p>' , esc_html( $chosen ) );
 }
 
 // Now we set that function up to execute when the admin_notices action is called
@@ -83,7 +90,7 @@ function dolly_css() {
 		font-size: 11px;
 	}
 	</style>
-	', $x );
+	', esc_attr( $x ) );
 }
 
 add_action( 'admin_head', 'dolly_css' );
