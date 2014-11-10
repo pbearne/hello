@@ -7,8 +7,10 @@ class HelloTest extends WP_UnitTestCase {
 	/**
 	 * setup variables for tests
 	 */
-	public function setUp()
-	{
+	public function setUp() {
+		if( class_exists( '\WP_Mock' ) ){
+			\WP_Mock::setUp();
+		}
 		$this->lyrics[] = "Hello, Dolly";
 		$this->lyrics[] = "Well, hello, Dolly";
 		$this->lyrics[] = "It&#8217;s so nice to have you back where you belong";
@@ -39,6 +41,16 @@ class HelloTest extends WP_UnitTestCase {
 		$this->lyrics[] = "Dolly&#8217;ll never go away again";
 	}
 
+	/**
+	 * tear down after tests
+	 */
+	public function tearDown() {
+		if( class_exists( '\WP_Mock' ) ) {
+			\WP_Mock::tearDown();
+		}
+		$this->lyrics = null;
+	}
+
 
 	/**
 	 * makes sure a string is returned
@@ -63,7 +75,7 @@ class HelloTest extends WP_UnitTestCase {
 	/**
 	 * tests that the string we get matches the possible string in the array
 	 */
-	function test_is_in_array(){
+	function test_is_in_array() {
 		$maybe_found = hello_dolly_get_lyric();
 		$this->assertContains( $maybe_found, $this->lyrics );
 	}
