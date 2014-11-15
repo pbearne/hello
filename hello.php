@@ -8,7 +8,7 @@
 * Plugin URI: http://wordpress.org/plugins/hello-dolly/
 * Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
 * Author: Matt Mullenweg
-* Version: 1.7
+* Version: 1.8
 * Author URI: http://ma.tt/
 * Text Domain: hello-dolly
 */
@@ -53,20 +53,22 @@ Dolly'll never go away
 Dolly'll never go away again", 'hello-dolly', 'lyrics: Hello, Dolly by Louis Armstrong' );
 
 	// Here we split it into lines
-	$lyrics = explode( "\n", $lyrics ); 
+	$lyrics = explode( "\n", $lyrics );
 
 	// And then randomly choose a line
 	return wptexturize( $lyrics[ mt_rand( 0, count( $lyrics ) - 1 ) ] );
 }
 
 
- 
+
 /**
  * This just echoes the chosen line, we'll position it later
  */
 function hello_dolly() {
 	$chosen = hello_dolly_get_lyric();
-	printf( '<p id="dolly">%s</p>' , esc_html( $chosen ) );
+	printf( '<p id="dolly"><span class="screen-reader-text">%s </span>%s</p>',
+		_x( 'A random lyric from Hello, Dolly by Louis Armstrong: ','hello-dolly', 'a11n aria-label' ),
+		esc_html( $chosen ) );
 }
 
 // Now we set that function up to execute when the admin_notices action is called
@@ -80,12 +82,12 @@ function dolly_css() {
 	// This makes sure that the positioning is also good for right-to-left languages
 	$x = is_rtl() ? 'left' : 'right';
 
-	printf(' 
+	printf('
 	<style type="text/css">
 	#dolly {
 		float: %1$s;
 		padding-%1$s: 15px;
-		padding-top: 5px;		
+		padding-top: 5px;
 		margin: 0;
 		font-size: 11px;
 	}

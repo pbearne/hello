@@ -45,6 +45,10 @@ msgid ""
 "Dolly'll never go away again"
 msgstr ""
 
+#: hello.php:70
+msgid "A random lyric from Hello, Dolly by Louis Armstrong: "
+msgstr ""
+
 #. Plugin Name of the plugin/theme
 msgid "Hello Dolly"
 msgstr ""
