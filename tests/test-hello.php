@@ -58,25 +58,10 @@ class HelloTest extends WP_UnitTestCase {
 	function test_is_string() {
 		// replace this with some actual testing code
 
-		$maybe_string = hello_dolly_get_lyric();
-		$this->assertInternalType( 'string', $maybe_string );
-	}
-
-	/**
-	 * make sure don't get an empty string
-	 */
-	function test_is_not_empty() {
-		// replace this with some actual testing code
-
-		$maybe_empty = hello_dolly_get_lyric();
-		$this->assertNotEmpty( trim( $maybe_empty ) );
-	}
-
-	/**
-	 * tests that the string we get matches the possible string in the array
-	 */
-	function test_is_in_array() {
-		$maybe_found = hello_dolly_get_lyric();
-		$this->assertContains( $maybe_found, $this->lyrics );
+		ob_start();
+		$maybe_string = Hello_Dolly::hello_dolly();
+		$output = ob_get_contents();
+		ob_end_flush();
+		$this->assertContains( $output, $this->lyrics );
 	}
 }
